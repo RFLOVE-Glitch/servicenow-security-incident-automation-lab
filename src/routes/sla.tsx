@@ -28,7 +28,7 @@ export const Route = createFileRoute("/sla")({
       },
     ],
   }),
-  component: Sla;
+  component: Sla,
 });
 
 function Sla() {
