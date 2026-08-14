@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArchitectureRouteImport } from './routes/architecture'
 import { Route as DetectionRouteImport } from './routes/detection'
+import { Route as DocsRouteImport } from './routes/docs'
 import { Route as EvidenceRouteImport } from './routes/evidence'
 import { Route as MetricsRouteImport } from './routes/metrics'
 import { Route as PlaybooksRouteImport } from './routes/playbooks'
@@ -33,6 +34,11 @@ const ArchitectureRoute = ArchitectureRouteImport.update({
 const DetectionRoute = DetectionRouteImport.update({
   id: '/detection',
   path: '/detection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EvidenceRoute = EvidenceRouteImport.update({
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/architecture': typeof ArchitectureRoute
   '/detection': typeof DetectionRoute
+  '/docs': typeof DocsRoute
   '/evidence': typeof EvidenceRoute
   '/metrics': typeof MetricsRoute
   '/playbooks': typeof PlaybooksRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/architecture': typeof ArchitectureRoute
   '/detection': typeof DetectionRoute
+  '/docs': typeof DocsRoute
   '/evidence': typeof EvidenceRoute
   '/metrics': typeof MetricsRoute
   '/playbooks': typeof PlaybooksRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/architecture': typeof ArchitectureRoute
   '/detection': typeof DetectionRoute
+  '/docs': typeof DocsRoute
   '/evidence': typeof EvidenceRoute
   '/metrics': typeof MetricsRoute
   '/playbooks': typeof PlaybooksRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/architecture'
     | '/detection'
+    | '/docs'
     | '/evidence'
     | '/metrics'
     | '/playbooks'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/architecture'
     | '/detection'
+    | '/docs'
     | '/evidence'
     | '/metrics'
     | '/playbooks'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/architecture'
     | '/detection'
+    | '/docs'
     | '/evidence'
     | '/metrics'
     | '/playbooks'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArchitectureRoute: typeof ArchitectureRoute
   DetectionRoute: typeof DetectionRoute
+  DocsRoute: typeof DocsRoute
   EvidenceRoute: typeof EvidenceRoute
   MetricsRoute: typeof MetricsRoute
   PlaybooksRoute: typeof PlaybooksRoute
@@ -181,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/detection'
       fullPath: '/detection'
       preLoaderRoute: typeof DetectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/evidence': {
@@ -239,6 +259,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArchitectureRoute: ArchitectureRoute,
   DetectionRoute: DetectionRoute,
+  DocsRoute: DocsRoute,
   EvidenceRoute: EvidenceRoute,
   MetricsRoute: MetricsRoute,
   PlaybooksRoute: PlaybooksRoute,
