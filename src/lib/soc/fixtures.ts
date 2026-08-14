@@ -1,0 +1,501 @@
+/**
+ * SYNTHETIC FIXTURES — every record below is fabricated for demonstration.
+ *
+ * No real hosts, users, customers, credentials, indicators or incidents are
+ * represented. Identifiers use a "SIR-" prefix chosen for this lab and do not
+ * correspond to any real ticketing system record.
+ */
+
+import type {
+  Asset,
+  AuditEntry,
+  BusinessService,
+  EvidenceItem,
+  Identity,
+  Incident,
+  Playbook,
+  ResponseTask,
+} from "./types";
+
+export const businessServices: BusinessService[] = [
+  { id: "bs-pay", name: "Payments Processing", criticality: 1, owner: "A. Okafor (synthetic)" },
+  { id: "bs-portal", name: "Customer Portal", criticality: 1, owner: "L. Marsh (synthetic)" },
+  { id: "bs-hr", name: "HR Self-Service", criticality: 3, owner: "R. Delgado (synthetic)" },
+  { id: "bs-dw", name: "Analytics Warehouse", criticality: 2, owner: "T. Nakamura (synthetic)" },
+  { id: "bs-corp", name: "Corporate Workstations", criticality: 3, owner: "J. Byrne (synthetic)" },
+  { id: "bs-build", name: "Build & Release", criticality: 2, owner: "S. Petrov (synthetic)" },
+];
+
+export const assets: Asset[] = [
+  { id: "as-01", hostname: "syn-pay-api-01", tier: "tier0", environment: "production", businessServiceId: "bs-pay" },
+  { id: "as-02", hostname: "syn-portal-web-04", tier: "tier1", environment: "production", businessServiceId: "bs-portal" },
+  { id: "as-03", hostname: "syn-hr-app-02", tier: "tier2", environment: "production", businessServiceId: "bs-hr" },
+  { id: "as-04", hostname: "syn-dw-node-11", tier: "tier1", environment: "production", businessServiceId: "bs-dw" },
+  { id: "as-05", hostname: "syn-wks-2291", tier: "tier3", environment: "production", businessServiceId: "bs-corp" },
+  { id: "as-06", hostname: "syn-build-runner-07", tier: "tier2", environment: "staging", businessServiceId: "bs-build" },
+  { id: "as-07", hostname: "syn-portal-web-09", tier: "tier1", environment: "staging", businessServiceId: "bs-portal" },
+  { id: "as-08", hostname: "syn-wks-1043", tier: "tier3", environment: "production", businessServiceId: "bs-corp" },
+];
+
+export const identities: Identity[] = [
+  { id: "id-01", displayName: "svc_payments_batch", risk: "service", department: "Platform" },
+  { id: "id-02", displayName: "m.hollis", risk: "privileged", department: "Infrastructure" },
+  { id: "id-03", displayName: "d.reyes", risk: "standard", department: "Support" },
+  { id: "id-04", displayName: "k.ansari", risk: "elevated", department: "Data Engineering" },
+  { id: "id-05", displayName: "p.novak", risk: "standard", department: "Finance" },
+  { id: "id-06", displayName: "svc_ci_deploy", risk: "service", department: "Platform" },
+  { id: "id-07", displayName: "j.whitfield", risk: "privileged", department: "Security" },
+];
+
+export const incidents: Incident[] = [
+  {
+    id: "SIR-2041",
+    title: "Anomalous privileged token reuse against payments API",
+    category: "credential_abuse",
+    severity: "critical",
+    state: "containment",
+    openedAt: "2026-08-14T02:10:00Z",
+    ageMinutes: 205,
+    assetId: "as-01",
+    identityId: "id-02",
+    businessServiceId: "bs-pay",
+    signals: [
+      {
+        id: "sig-2041-a",
+        source: "SIM-IdentityProvider (synthetic)",
+        rule: "Impossible travel for privileged session",
+        confidence: 88,
+        observedAt: "2026-08-14T02:08:00Z",
+        mitreTechnique: "T1078.004 — Valid Accounts: Cloud Accounts",
+        dedupeKey: "idp:priv-token:as-01",
+        normalized: true,
+      },
+      {
+        id: "sig-2041-b",
+        source: "SIM-SIEM (synthetic)",
+        rule: "Burst of 4xx then 200 on admin endpoint",
+        confidence: 74,
+        observedAt: "2026-08-14T02:12:00Z",
+        mitreTechnique: "T1110.003 — Password Spraying",
+        dedupeKey: "siem:admin-burst:as-01",
+        normalized: true,
+      },
+    ],
+    aiSummary:
+      "Simulated triage: a privileged session token appears to have been replayed from a second network region within four minutes, followed by successful access to an administrative payments endpoint. Recommend session revocation and credential rotation pending analyst confirmation.",
+    aiSuggestedActions: [
+      "Revoke active sessions for the privileged identity",
+      "Rotate the associated API credential",
+      "Collect authentication logs for the last 24h",
+    ],
+    containmentApproved: true,
+    assignedGroup: "Incident Response (IR)",
+  },
+  {
+    id: "SIR-2042",
+    title: "Credential-harvesting phishing wave targeting support staff",
+    category: "phishing",
+    severity: "high",
+    state: "analysis",
+    openedAt: "2026-08-14T03:40:00Z",
+    ageMinutes: 115,
+    assetId: "as-08",
+    identityId: "id-03",
+    businessServiceId: "bs-corp",
+    signals: [
+      {
+        id: "sig-2042-a",
+        source: "SIM-MailGateway (synthetic)",
+        rule: "Lookalike domain with credential form",
+        confidence: 81,
+        observedAt: "2026-08-14T03:38:00Z",
+        mitreTechnique: "T1566.002 — Spearphishing Link",
+        dedupeKey: "mail:lookalike:corp",
+        normalized: true,
+      },
+      {
+        id: "sig-2042-b",
+        source: "SIM-UserReport (synthetic)",
+        rule: "Employee-reported suspicious message",
+        confidence: 60,
+        observedAt: "2026-08-14T03:52:00Z",
+        mitreTechnique: "T1566 — Phishing",
+        dedupeKey: "report:corp:1043",
+        normalized: true,
+      },
+    ],
+    aiSummary:
+      "Simulated triage: nine near-identical messages from a lookalike sender domain reached support mailboxes; two recipients opened the link. No credential submission observed in synthetic telemetry.",
+    aiSuggestedActions: [
+      "Quarantine matching messages across mailboxes",
+      "Block the sender domain at the gateway",
+      "Force password reset for the two click-through users",
+    ],
+    containmentApproved: false,
+    assignedGroup: "SOC Tier 2 Analysis",
+  },
+  {
+    id: "SIR-2043",
+    title: "Commodity loader detected on finance workstation",
+    category: "malware",
+    severity: "high",
+    state: "triage",
+    openedAt: "2026-08-14T04:55:00Z",
+    ageMinutes: 40,
+    assetId: "as-05",
+    identityId: "id-05",
+    businessServiceId: "bs-corp",
+    signals: [
+      {
+        id: "sig-2043-a",
+        source: "SIM-EDR (synthetic)",
+        rule: "Script interpreter spawning encoded child process",
+        confidence: 92,
+        observedAt: "2026-08-14T04:54:00Z",
+        mitreTechnique: "T1059.001 — PowerShell",
+        dedupeKey: "edr:loader:as-05",
+        normalized: true,
+      },
+    ],
+    aiSummary:
+      "Simulated triage: an office document spawned an encoded interpreter command that attempted an outbound connection. Behaviour matches a commodity loader family in the synthetic signature set.",
+    aiSuggestedActions: [
+      "Isolate the endpoint from the network",
+      "Collect process tree and persistence artifacts",
+      "Submit the sample hash to the simulated sandbox",
+    ],
+    containmentApproved: false,
+    assignedGroup: "SOC Tier 2 Analysis",
+  },
+  {
+    id: "SIR-2044",
+    title: "Public object storage bucket exposing analytics extracts",
+    category: "cloud_misconfiguration",
+    severity: "medium",
+    state: "analysis",
+    openedAt: "2026-08-13T21:00:00Z",
+    ageMinutes: 527,
+    assetId: "as-04",
+    identityId: "id-04",
+    businessServiceId: "bs-dw",
+    signals: [
+      {
+        id: "sig-2044-a",
+        source: "SIM-CloudTrail (synthetic)",
+        rule: "Bucket ACL changed to public-read",
+        confidence: 95,
+        observedAt: "2026-08-13T20:58:00Z",
+        mitreTechnique: "T1580 — Cloud Infrastructure Discovery",
+        dedupeKey: "cloud:acl:as-04",
+        normalized: true,
+      },
+    ],
+    aiSummary:
+      "Simulated triage: a storage bucket holding synthetic analytics extracts was made publicly readable by an automation change. No external read requests appear in the synthetic access log.",
+    aiSuggestedActions: [
+      "Revert the bucket ACL to private",
+      "Review the change ticket that introduced the ACL update",
+    ],
+    containmentApproved: true,
+    assignedGroup: "Cloud Security Engineering",
+  },
+  {
+    id: "SIR-2045",
+    title: "Large outbound transfer from analytics warehouse node",
+    category: "data_exfiltration",
+    severity: "critical",
+    state: "triage",
+    openedAt: "2026-08-14T05:05:00Z",
+    ageMinutes: 30,
+    assetId: "as-04",
+    identityId: "id-04",
+    businessServiceId: "bs-dw",
+    signals: [
+      {
+        id: "sig-2045-a",
+        source: "SIM-SIEM (synthetic)",
+        rule: "Outbound volume 40x baseline to unrecognised ASN",
+        confidence: 79,
+        observedAt: "2026-08-14T05:03:00Z",
+        mitreTechnique: "T1048 — Exfiltration Over Alternative Protocol",
+        dedupeKey: "siem:egress:as-04",
+        normalized: true,
+      },
+      {
+        id: "sig-2045-b",
+        source: "SIM-EDR (synthetic)",
+        rule: "Archive utility invoked against export directory",
+        confidence: 68,
+        observedAt: "2026-08-14T05:04:00Z",
+        mitreTechnique: "T1560.001 — Archive via Utility",
+        dedupeKey: "edr:archive:as-04",
+        normalized: true,
+      },
+    ],
+    aiSummary:
+      "Simulated triage: bulk archive creation immediately preceded a sustained outbound transfer well above baseline. Cannot distinguish a scheduled export from exfiltration without analyst review of the change calendar.",
+    aiSuggestedActions: [
+      "Throttle egress from the affected node",
+      "Correlate against the scheduled export calendar",
+      "Preserve netflow and archive metadata",
+    ],
+    containmentApproved: false,
+    assignedGroup: "Incident Response (IR)",
+  },
+  {
+    id: "SIR-2046",
+    title: "Internet-facing staging host missing critical patch",
+    category: "vulnerable_asset",
+    severity: "medium",
+    state: "new",
+    openedAt: "2026-08-14T00:20:00Z",
+    ageMinutes: 315,
+    assetId: "as-07",
+    identityId: "id-06",
+    businessServiceId: "bs-portal",
+    signals: [
+      {
+        id: "sig-2046-a",
+        source: "SIM-VulnScanner (synthetic)",
+        rule: "Unpatched remote-code-execution advisory (synthetic CVE-0000-0001)",
+        confidence: 70,
+        observedAt: "2026-08-14T00:18:00Z",
+        mitreTechnique: "T1190 — Exploit Public-Facing Application",
+        dedupeKey: "vuln:rce:as-07",
+        normalized: true,
+      },
+    ],
+    aiSummary:
+      "Simulated triage: a staging portal host is two patch cycles behind and exposes a service associated with a synthetic remote-code-execution advisory. No exploitation attempts observed.",
+    aiSuggestedActions: [
+      "Open a remediation task with the platform owner",
+      "Confirm the host is not reachable from the public internet",
+    ],
+    containmentApproved: false,
+    assignedGroup: "Vulnerability Management",
+  },
+  {
+    id: "SIR-2047",
+    title: "Departing employee bulk-downloading document repository",
+    category: "insider_risk",
+    severity: "high",
+    state: "review",
+    openedAt: "2026-08-13T18:30:00Z",
+    ageMinutes: 665,
+    assetId: "as-03",
+    identityId: "id-03",
+    businessServiceId: "bs-hr",
+    signals: [
+      {
+        id: "sig-2047-a",
+        source: "SIM-SIEM (synthetic)",
+        rule: "Bulk document download outside working pattern",
+        confidence: 66,
+        observedAt: "2026-08-13T18:25:00Z",
+        mitreTechnique: "T1213 — Data from Information Repositories",
+        dedupeKey: "siem:bulkdl:id-03",
+        normalized: true,
+      },
+    ],
+    aiSummary:
+      "Simulated triage: an account flagged in the synthetic HR offboarding feed downloaded 412 documents in one hour. Legitimate handover activity is a plausible explanation and requires manager confirmation.",
+    aiSuggestedActions: [
+      "Request manager confirmation of handover activity",
+      "Preserve the download manifest for HR review",
+    ],
+    containmentApproved: true,
+    assignedGroup: "Identity & Access Team",
+  },
+  {
+    id: "SIR-2048",
+    title: "Sustained request flood against customer portal edge",
+    category: "denial_of_service",
+    severity: "low",
+    state: "recovery",
+    openedAt: "2026-08-14T01:15:00Z",
+    ageMinutes: 260,
+    assetId: "as-02",
+    identityId: "id-01",
+    businessServiceId: "bs-portal",
+    signals: [
+      {
+        id: "sig-2048-a",
+        source: "SIM-SIEM (synthetic)",
+        rule: "Request rate above edge threshold for 10 minutes",
+        confidence: 55,
+        observedAt: "2026-08-14T01:13:00Z",
+        mitreTechnique: "T1498 — Network Denial of Service",
+        dedupeKey: "siem:flood:as-02",
+        normalized: true,
+      },
+    ],
+    aiSummary:
+      "Simulated triage: edge rate limiting absorbed a short traffic spike from a small address range. No origin saturation or error-rate change in synthetic telemetry.",
+    aiSuggestedActions: ["Confirm rate-limit rules held", "Close after 24h of stable traffic"],
+    containmentApproved: true,
+    assignedGroup: "SOC Tier 1 Triage",
+  },
+];
+
+export const playbooks: Playbook[] = [
+  {
+    id: "pb-phish",
+    name: "Phishing Containment",
+    description:
+      "Quarantines matching messages, blocks the sender infrastructure and drives credential resets for click-through users.",
+    appliesToCategories: ["phishing"],
+    minSeverity: "low",
+    minConfidence: 65,
+    actions: [
+      { id: "pb-phish-1", label: "Search mailboxes for matching messages", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM-MailGateway" },
+      { id: "pb-phish-2", label: "Quarantine matched messages", impact: "medium", requiresHumanApproval: false, simulatedIntegration: "SIM-MailGateway" },
+      { id: "pb-phish-3", label: "Block sender domain at gateway", impact: "medium", requiresHumanApproval: false, simulatedIntegration: "SIM-MailGateway" },
+      { id: "pb-phish-4", label: "Force password reset for click-through users", impact: "high", requiresHumanApproval: true, simulatedIntegration: "SIM-IdentityProvider" },
+    ],
+    guardrails: [
+      "Never quarantines more than the matched dedupe key set.",
+      "Password resets always require analyst approval.",
+    ],
+  },
+  {
+    id: "pb-endpoint",
+    name: "Endpoint Isolation & Triage",
+    description:
+      "Collects endpoint forensics and, with approval, network-isolates a host showing confirmed malicious execution.",
+    appliesToCategories: ["malware"],
+    minSeverity: "medium",
+    minConfidence: 75,
+    actions: [
+      { id: "pb-ep-1", label: "Collect process tree and persistence artifacts", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM-EDR" },
+      { id: "pb-ep-2", label: "Submit sample hash to sandbox", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM-Sandbox" },
+      { id: "pb-ep-3", label: "Network-isolate the endpoint", impact: "high", requiresHumanApproval: true, simulatedIntegration: "SIM-EDR" },
+    ],
+    guardrails: [
+      "Isolation is never applied to tier0 assets without incident commander sign-off.",
+      "Evidence collection always precedes containment.",
+    ],
+  },
+  {
+    id: "pb-identity",
+    name: "Identity Compromise Response",
+    description:
+      "Revokes sessions and rotates credentials for identities showing abuse indicators, under human approval.",
+    appliesToCategories: ["credential_abuse", "insider_risk"],
+    minSeverity: "medium",
+    minConfidence: 70,
+    actions: [
+      { id: "pb-id-1", label: "Snapshot authentication history (24h)", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM-IdentityProvider" },
+      { id: "pb-id-2", label: "Revoke active sessions", impact: "high", requiresHumanApproval: true, simulatedIntegration: "SIM-IdentityProvider" },
+      { id: "pb-id-3", label: "Rotate associated credentials", impact: "high", requiresHumanApproval: true, simulatedIntegration: "SIM-SecretsVault" },
+      { id: "pb-id-4", label: "Notify identity owner and manager", impact: "medium", requiresHumanApproval: false, simulatedIntegration: "SIM-Notify" },
+    ],
+    guardrails: [
+      "Privileged identities require two-person approval before revocation.",
+      "Service accounts are never rotated during a change freeze.",
+    ],
+  },
+  {
+    id: "pb-cloud",
+    name: "Cloud Exposure Remediation",
+    description:
+      "Reverts risky cloud control-plane changes and links the originating change record.",
+    appliesToCategories: ["cloud_misconfiguration"],
+    minSeverity: "low",
+    minConfidence: 80,
+    actions: [
+      { id: "pb-cl-1", label: "Snapshot current resource policy", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM-CloudTrail" },
+      { id: "pb-cl-2", label: "Query external access log", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM-CloudTrail" },
+      { id: "pb-cl-3", label: "Revert resource policy to private", impact: "high", requiresHumanApproval: true, simulatedIntegration: "SIM-CloudControlPlane" },
+    ],
+    guardrails: [
+      "Policy reverts are gated behind change-management approval.",
+      "Snapshots are taken before any mutation.",
+    ],
+  },
+  {
+    id: "pb-exfil",
+    name: "Exfiltration Throttle & Preserve",
+    description:
+      "Preserves netflow evidence and throttles egress from a suspected exfiltration source.",
+    appliesToCategories: ["data_exfiltration"],
+    minSeverity: "high",
+    minConfidence: 75,
+    actions: [
+      { id: "pb-ex-1", label: "Preserve netflow and archive metadata", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM-SIEM" },
+      { id: "pb-ex-2", label: "Correlate against scheduled export calendar", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM-CMDB" },
+      { id: "pb-ex-3", label: "Throttle egress from affected node", impact: "high", requiresHumanApproval: true, simulatedIntegration: "SIM-NetworkControl" },
+    ],
+    guardrails: [
+      "Egress throttling on production services requires business service owner acknowledgement.",
+      "No destructive action is ever taken on data stores.",
+    ],
+  },
+];
+
+export const responseTasks: ResponseTask[] = [
+  { id: "TASK-9001", incidentId: "SIR-2041", title: "Revoke privileged sessions (awaiting second approver)", assignmentGroup: "Identity & Access Team", status: "blocked", automated: true, requiresApproval: true, dueInMinutes: 20 },
+  { id: "TASK-9002", incidentId: "SIR-2041", title: "Snapshot 24h authentication history", assignmentGroup: "Incident Response (IR)", status: "complete", automated: true, requiresApproval: false, dueInMinutes: 0 },
+  { id: "TASK-9003", incidentId: "SIR-2041", title: "Interview infrastructure on-call about token usage", assignmentGroup: "Incident Response (IR)", status: "in_progress", automated: false, requiresApproval: false, dueInMinutes: 90 },
+  { id: "TASK-9004", incidentId: "SIR-2042", title: "Quarantine matched phishing messages", assignmentGroup: "SOC Tier 2 Analysis", status: "complete", automated: true, requiresApproval: false, dueInMinutes: 0 },
+  { id: "TASK-9005", incidentId: "SIR-2042", title: "Force password reset for click-through users", assignmentGroup: "Identity & Access Team", status: "open", automated: true, requiresApproval: true, dueInMinutes: 45 },
+  { id: "TASK-9006", incidentId: "SIR-2043", title: "Collect process tree and persistence artifacts", assignmentGroup: "SOC Tier 2 Analysis", status: "complete", automated: true, requiresApproval: false, dueInMinutes: 0 },
+  { id: "TASK-9007", incidentId: "SIR-2043", title: "Approve endpoint network isolation", assignmentGroup: "SOC Tier 2 Analysis", status: "open", automated: false, requiresApproval: true, dueInMinutes: 15 },
+  { id: "TASK-9008", incidentId: "SIR-2044", title: "Revert bucket ACL to private", assignmentGroup: "Cloud Security Engineering", status: "in_progress", automated: false, requiresApproval: true, dueInMinutes: 120 },
+  { id: "TASK-9009", incidentId: "SIR-2045", title: "Preserve netflow and archive metadata", assignmentGroup: "Incident Response (IR)", status: "complete", automated: true, requiresApproval: false, dueInMinutes: 0 },
+  { id: "TASK-9010", incidentId: "SIR-2045", title: "Approve egress throttle on warehouse node", assignmentGroup: "Incident Response (IR)", status: "open", automated: false, requiresApproval: true, dueInMinutes: 25 },
+  { id: "TASK-9011", incidentId: "SIR-2046", title: "Schedule patch window with platform owner", assignmentGroup: "Vulnerability Management", status: "open", automated: false, requiresApproval: false, dueInMinutes: 1440 },
+  { id: "TASK-9012", incidentId: "SIR-2047", title: "Obtain manager confirmation of handover", assignmentGroup: "Identity & Access Team", status: "in_progress", automated: false, requiresApproval: false, dueInMinutes: 240 },
+  { id: "TASK-9013", incidentId: "SIR-2048", title: "Confirm 24h of stable edge traffic", assignmentGroup: "SOC Tier 1 Triage", status: "open", automated: false, requiresApproval: false, dueInMinutes: 600 },
+];
+
+export const evidence: EvidenceItem[] = [
+  { id: "EV-4001", incidentId: "SIR-2041", kind: "log_excerpt", label: "IdP session replay window", value: "02:04:11Z session S-88213 issued; 02:08:02Z reuse from second region", collectedBy: "automation:pb-identity", collectedAt: "2026-08-14T02:15:00Z", integrityDigest: "sha256:9f2c…a1d0 (synthetic)" },
+  { id: "EV-4002", incidentId: "SIR-2041", kind: "network_indicator", label: "Source range (synthetic)", value: "203.0.113.0/24 (documentation range)", collectedBy: "analyst:j.whitfield", collectedAt: "2026-08-14T02:22:00Z", integrityDigest: "sha256:41be…77c4 (synthetic)" },
+  { id: "EV-4003", incidentId: "SIR-2042", kind: "analyst_note", label: "Click-through scope", value: "2 of 9 recipients opened the link; no credential POST observed", collectedBy: "analyst:d.reyes", collectedAt: "2026-08-14T04:05:00Z", integrityDigest: "sha256:0c73…be19 (synthetic)" },
+  { id: "EV-4004", incidentId: "SIR-2043", kind: "hash", label: "Loader sample digest (synthetic)", value: "sha256:0000000000000000000000000000000000000000000000000000000000000043", collectedBy: "automation:pb-endpoint", collectedAt: "2026-08-14T04:57:00Z", integrityDigest: "sha256:aa10…4f52 (synthetic)" },
+  { id: "EV-4005", incidentId: "SIR-2044", kind: "screenshot_reference", label: "Bucket policy before revert", value: "artifact://synthetic/bucket-policy-2044.png", collectedBy: "automation:pb-cloud", collectedAt: "2026-08-13T21:06:00Z", integrityDigest: "sha256:5d81…0b3a (synthetic)" },
+  { id: "EV-4006", incidentId: "SIR-2045", kind: "log_excerpt", label: "Egress volume baseline delta", value: "05:03Z 1.9 GB in 4 min vs 48 MB/hr trailing baseline", collectedBy: "automation:pb-exfil", collectedAt: "2026-08-14T05:07:00Z", integrityDigest: "sha256:7e46…c9d1 (synthetic)" },
+  { id: "EV-4007", incidentId: "SIR-2047", kind: "analyst_note", label: "Download manifest summary", value: "412 documents, 3 repositories, all within prior access grants", collectedBy: "analyst:d.reyes", collectedAt: "2026-08-13T19:40:00Z", integrityDigest: "sha256:b214…8e77 (synthetic)" },
+];
+
+export const auditLog: AuditEntry[] = [
+  { id: "AUD-7001", incidentId: "SIR-2041", at: "2026-08-14T02:10:00Z", actor: "system", actorName: "intake-normalizer", action: "Incident created", detail: "Correlated 2 signals under dedupe key idp:priv-token:as-01" },
+  { id: "AUD-7002", incidentId: "SIR-2041", at: "2026-08-14T02:11:00Z", actor: "automation", actorName: "routing-engine", action: "Routed to Incident Response (IR)", detail: "Rule: P1 or critical severity -> Incident Response" },
+  { id: "AUD-7003", incidentId: "SIR-2041", at: "2026-08-14T02:15:00Z", actor: "automation", actorName: "pb-identity", action: "Executed low-impact action", detail: "Snapshot authentication history (24h)" },
+  { id: "AUD-7004", incidentId: "SIR-2041", at: "2026-08-14T02:31:00Z", actor: "analyst", actorName: "j.whitfield", action: "Approved containment", detail: "Approved credential rotation; session revocation held for second approver", humanApproved: true },
+  { id: "AUD-7005", incidentId: "SIR-2042", at: "2026-08-14T03:41:00Z", actor: "automation", actorName: "routing-engine", action: "Routed to SOC Tier 2 Analysis", detail: "Rule: P2, or tier0/tier1 production asset -> SOC Tier 2" },
+  { id: "AUD-7006", incidentId: "SIR-2042", at: "2026-08-14T03:58:00Z", actor: "automation", actorName: "pb-phish", action: "Quarantined messages", detail: "9 messages matched dedupe key mail:lookalike:corp" },
+  { id: "AUD-7007", incidentId: "SIR-2043", at: "2026-08-14T04:55:00Z", actor: "automation", actorName: "pb-endpoint", action: "Blocked auto-isolation", detail: "High-impact action on high-severity incident requires human approval" },
+  { id: "AUD-7008", incidentId: "SIR-2044", at: "2026-08-13T21:06:00Z", actor: "automation", actorName: "pb-cloud", action: "Snapshotted resource policy", detail: "Pre-mutation snapshot stored as EV-4005" },
+  { id: "AUD-7009", incidentId: "SIR-2045", at: "2026-08-14T05:06:00Z", actor: "automation", actorName: "pb-exfil", action: "Preserved evidence", detail: "Netflow and archive metadata captured before any containment" },
+  { id: "AUD-7010", incidentId: "SIR-2047", at: "2026-08-13T22:14:00Z", actor: "analyst", actorName: "d.reyes", action: "Declined auto-close", detail: "High-severity incident: closure requires human validation", humanApproved: true },
+  { id: "AUD-7011", incidentId: "SIR-2048", at: "2026-08-14T02:00:00Z", actor: "analyst", actorName: "d.reyes", action: "Validated containment", detail: "Edge rate limiting confirmed effective", humanApproved: true },
+];
+
+/* --------------------------- lookup helpers --------------------------- */
+
+export function getAsset(id: string): Asset {
+  const found = assets.find((a) => a.id === id);
+  if (!found) throw new Error(`Unknown asset: ${id}`);
+  return found;
+}
+
+export function getIdentity(id: string): Identity {
+  const found = identities.find((i) => i.id === id);
+  if (!found) throw new Error(`Unknown identity: ${id}`);
+  return found;
+}
+
+export function getService(id: string): BusinessService {
+  const found = businessServices.find((s) => s.id === id);
+  if (!found) throw new Error(`Unknown business service: ${id}`);
+  return found;
+}
+
+export function getIncident(id: string): Incident | undefined {
+  return incidents.find((i) => i.id === id);
+}
+
+export function playbooksForIncident(categoryPlaybooks: Playbook[], category: Incident["category"]) {
+  return categoryPlaybooks.filter((p) => p.appliesToCategories.includes(category));
+}
