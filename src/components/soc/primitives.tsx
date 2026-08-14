@@ -56,7 +56,13 @@ export function SeverityBadge({ severity }: { severity: Severity }) {
 
 export function PriorityBadge({ priority }: { priority: "P1" | "P2" | "P3" | "P4" }) {
   const tone: PillTone =
-    priority === "P1" ? "critical" : priority === "P2" ? "high" : priority === "P3" ? "medium" : "low";
+    priority === "P1"
+      ? "critical"
+      : priority === "P2"
+        ? "high"
+        : priority === "P3"
+          ? "medium"
+          : "low";
   return <Pill tone={tone}>{priority}</Pill>;
 }
 
@@ -75,7 +81,11 @@ export const slaLabel: Record<SlaState, string> = {
 export function SlaBar({ sla, label }: { sla: SlaStatus; label?: string }) {
   const width = Math.min(100, Math.max(2, sla.percentConsumed));
   const barTone =
-    sla.state === "breached" ? "bg-critical" : sla.state === "at_risk" ? "bg-warning" : "bg-success";
+    sla.state === "breached"
+      ? "bg-critical"
+      : sla.state === "at_risk"
+        ? "bg-warning"
+        : "bg-success";
 
   return (
     <div className="space-y-1.5">
@@ -88,7 +98,10 @@ export function SlaBar({ sla, label }: { sla: SlaStatus; label?: string }) {
         </span>
       </div>
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-        <div className={cn("h-full rounded-full transition-all", barTone)} style={{ width: `${width}%` }} />
+        <div
+          className={cn("h-full rounded-full transition-all", barTone)}
+          style={{ width: `${width}%` }}
+        />
       </div>
       <div className="flex items-center justify-between text-[11px] text-muted-foreground">
         <span>
@@ -212,9 +225,9 @@ export function SyntheticDataNotice({ className }: { className?: string }) {
     >
       <FlaskConical className="mt-0.5 size-4 shrink-0 text-warning" aria-hidden />
       <p className="text-xs leading-relaxed text-warning">
-        <strong className="font-semibold">Synthetic data &amp; simulated integrations.</strong> Every
-        incident, host, identity, indicator and detection source on this page is fabricated for
-        portfolio demonstration. There is no live ServiceNow instance, SIEM, EDR or identity
+        <strong className="font-semibold">Synthetic data &amp; simulated integrations.</strong>{" "}
+        Every incident, host, identity, indicator and detection source on this page is fabricated
+        for portfolio demonstration. There is no live ServiceNow instance, SIEM, EDR or identity
         provider connected, and this project is not affiliated with or endorsed by ServiceNow.
       </p>
     </div>

@@ -14,14 +14,7 @@ export type AssetTier = "tier0" | "tier1" | "tier2" | "tier3";
 export type IdentityRisk = "privileged" | "elevated" | "standard" | "service";
 
 export type IncidentState =
-  | "new"
-  | "triage"
-  | "analysis"
-  | "containment"
-  | "eradication"
-  | "recovery"
-  | "review"
-  | "closed";
+  "new" | "triage" | "analysis" | "containment" | "eradication" | "recovery" | "review" | "closed";
 
 export type IncidentCategory =
   | "phishing"
@@ -102,11 +95,7 @@ export interface ResponseTask {
 }
 
 export type EvidenceKind =
-  | "log_excerpt"
-  | "hash"
-  | "screenshot_reference"
-  | "network_indicator"
-  | "analyst_note";
+  "log_excerpt" | "hash" | "screenshot_reference" | "network_indicator" | "analyst_note";
 
 export interface EvidenceItem {
   id: string;

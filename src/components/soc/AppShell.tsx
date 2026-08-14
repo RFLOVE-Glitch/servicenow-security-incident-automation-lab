@@ -54,7 +54,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                     to={to}
                     activeOptions={{ exact: to === "/" }}
                     activeProps={{
-                      className: "bg-sidebar-accent text-sidebar-accent-foreground border-primary/60",
+                      className:
+                        "bg-sidebar-accent text-sidebar-accent-foreground border-primary/60",
                     }}
                     inactiveProps={{ className: "text-muted-foreground border-transparent" }}
                     className="flex items-center gap-2.5 rounded-md border-l-2 px-3 py-2 text-sm transition-colors hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"

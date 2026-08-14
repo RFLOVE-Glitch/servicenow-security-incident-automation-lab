@@ -32,7 +32,9 @@ function Metrics() {
     count: enrichedIncidents.filter((e) => e.priority.priority === p).length,
   }));
 
-  const categories = [...new Set(enrichedIncidents.map((e) => e.incident.category))] as IncidentCategory[];
+  const categories = [
+    ...new Set(enrichedIncidents.map((e) => e.incident.category)),
+  ] as IncidentCategory[];
   const byCategory = categories.map((c) => ({
     key: c,
     count: enrichedIncidents.filter((e) => e.incident.category === c).length,
@@ -61,7 +63,11 @@ function Metrics() {
         <StatCard label="Incidents" value={m.total} hint={`${m.open} open`} />
         <StatCard label="Mean confidence" value={`${m.meanConfidence}%`} tone="primary" />
         <StatCard label="Mean age" value={formatMinutes(meanAge)} />
-        <StatCard label="Automation coverage" value={`${m.automationCoveragePct}%`} tone="success" />
+        <StatCard
+          label="Automation coverage"
+          value={`${m.automationCoveragePct}%`}
+          tone="success"
+        />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -105,7 +111,10 @@ function Metrics() {
         </table>
       </Panel>
 
-      <Panel title="Human-in-the-loop" description="Automation is measured against approval activity, not in isolation.">
+      <Panel
+        title="Human-in-the-loop"
+        description="Automation is measured against approval activity, not in isolation."
+      >
         <div className="grid gap-4 sm:grid-cols-3">
           <StatCard label="Simulated automated actions" value={m.automatedActions} tone="primary" />
           <StatCard label="Recorded human approvals" value={m.humanApprovals} tone="success" />

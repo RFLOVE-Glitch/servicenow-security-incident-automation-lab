@@ -56,7 +56,9 @@ function Playbooks() {
                 >
                   <span className="min-w-0 flex-1 text-foreground">{a.label}</span>
                   <Pill
-                    tone={a.impact === "high" ? "critical" : a.impact === "medium" ? "warning" : "low"}
+                    tone={
+                      a.impact === "high" ? "critical" : a.impact === "medium" ? "warning" : "low"
+                    }
                   >
                     {a.impact} impact
                   </Pill>

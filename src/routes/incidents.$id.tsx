@@ -213,7 +213,10 @@ function IncidentDetail() {
                       <ul className="mt-1 space-y-1 text-xs text-critical">
                         {eligibility.approvalRequired.map((a) => (
                           <li key={a.id}>
-                            · {a.label} <span className="text-muted-foreground">({a.impact} impact · {a.simulatedIntegration})</span>
+                            · {a.label}{" "}
+                            <span className="text-muted-foreground">
+                              ({a.impact} impact · {a.simulatedIntegration})
+                            </span>
                           </li>
                         ))}
                       </ul>
@@ -248,7 +251,10 @@ function IncidentDetail() {
             )}
           </Panel>
 
-          <Panel title="Evidence" description="Synthetic artifacts with simulated integrity digests.">
+          <Panel
+            title="Evidence"
+            description="Synthetic artifacts with simulated integrity digests."
+          >
             {items.length === 0 ? (
               <p className="text-sm text-muted-foreground">No evidence recorded.</p>
             ) : (
@@ -259,7 +265,9 @@ function IncidentDetail() {
                       <Pill tone="outline">{ev.kind.replace(/_/g, " ")}</Pill>
                       <span className="text-sm text-foreground">{ev.label}</span>
                     </div>
-                    <p className="mt-1 font-mono text-xs break-all text-muted-foreground">{ev.value}</p>
+                    <p className="mt-1 font-mono text-xs break-all text-muted-foreground">
+                      {ev.value}
+                    </p>
                     <p className="mt-1 text-[11px] text-muted-foreground">
                       {ev.collectedBy} · {ev.collectedAt} · digest {ev.integrityDigest}
                     </p>
@@ -274,12 +282,22 @@ function IncidentDetail() {
               {audit.map((a) => (
                 <li key={a.id} className="border-b border-border/50 pb-2 text-sm last:border-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <Pill tone={a.actor === "automation" ? "info" : a.actor === "system" ? "neutral" : "primary"}>
+                    <Pill
+                      tone={
+                        a.actor === "automation"
+                          ? "info"
+                          : a.actor === "system"
+                            ? "neutral"
+                            : "primary"
+                      }
+                    >
                       {a.actor}
                     </Pill>
                     <span className="text-foreground">{a.action}</span>
                     {a.humanApproved && <Pill tone="success">human approved</Pill>}
-                    <span className="ml-auto font-mono text-[11px] text-muted-foreground">{a.at}</span>
+                    <span className="ml-auto font-mono text-[11px] text-muted-foreground">
+                      {a.at}
+                    </span>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {a.actorName} — {a.detail}
@@ -344,7 +362,10 @@ function IncidentDetail() {
             <KeyValue label="Age" value={formatMinutes(incident.ageMinutes)} />
             <KeyValue label="Asset" value={`${asset.hostname} (${asset.tier})`} />
             <KeyValue label="Environment" value={asset.environment} />
-            <KeyValue label="Business service" value={`${service.name} · C${service.criticality}`} />
+            <KeyValue
+              label="Business service"
+              value={`${service.name} · C${service.criticality}`}
+            />
             <KeyValue label="Service owner" value={service.owner} />
             <KeyValue label="Identity" value={identity.displayName} />
             <KeyValue label="Identity risk" value={identity.risk} />

@@ -34,7 +34,9 @@ export const Route = createFileRoute("/tasks")({
 function Tasks() {
   const groups = [...new Set(responseTasks.map((t) => t.assignmentGroup))];
   const automated = responseTasks.filter((t) => t.automated).length;
-  const awaiting = responseTasks.filter((t) => t.requiresApproval && t.status !== "complete").length;
+  const awaiting = responseTasks.filter(
+    (t) => t.requiresApproval && t.status !== "complete",
+  ).length;
   const complete = responseTasks.filter((t) => t.status === "complete").length;
 
   return (

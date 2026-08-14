@@ -74,12 +74,19 @@ function Evidence() {
         </div>
       </Panel>
 
-      <Panel title="Audit trail" description="In-memory for the demo; production requires immutable storage.">
+      <Panel
+        title="Audit trail"
+        description="In-memory for the demo; production requires immutable storage."
+      >
         <ol className="space-y-2">
           {auditLog.map((a) => (
             <li key={a.id} className="border-b border-border/50 pb-2 last:border-0">
               <div className="flex flex-wrap items-center gap-2 text-sm">
-                <Pill tone={a.actor === "automation" ? "info" : a.actor === "system" ? "neutral" : "primary"}>
+                <Pill
+                  tone={
+                    a.actor === "automation" ? "info" : a.actor === "system" ? "neutral" : "primary"
+                  }
+                >
                   {a.actor}
                 </Pill>
                 <span className="text-foreground">{a.action}</span>

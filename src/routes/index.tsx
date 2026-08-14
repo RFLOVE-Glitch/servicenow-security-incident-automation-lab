@@ -50,9 +50,23 @@ function Overview() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Open incidents" value={m.open} hint={`${m.total} total in the fixture set`} />
-        <StatCard label="P1 incidents" value={m.p1} tone="critical" hint="Require incident commander" />
-        <StatCard label="Resolve SLA breached" value={m.breached} tone="warning" hint={`${m.atRisk} containment SLAs at risk`} />
+        <StatCard
+          label="Open incidents"
+          value={m.open}
+          hint={`${m.total} total in the fixture set`}
+        />
+        <StatCard
+          label="P1 incidents"
+          value={m.p1}
+          tone="critical"
+          hint="Require incident commander"
+        />
+        <StatCard
+          label="Resolve SLA breached"
+          value={m.breached}
+          tone="warning"
+          hint={`${m.atRisk} containment SLAs at risk`}
+        />
         <StatCard
           label="Automation coverage"
           value={`${m.automationCoveragePct}%`}
@@ -100,7 +114,10 @@ function Overview() {
         </Panel>
 
         <div className="space-y-6">
-          <Panel title="Safety controls in force" description="Enforced by pure, unit-tested logic.">
+          <Panel
+            title="Safety controls in force"
+            description="Enforced by pure, unit-tested logic."
+          >
             <div className="space-y-2">
               <ControlNote>High and critical incidents can never be auto-closed.</ControlNote>
               <ControlNote>
@@ -130,10 +147,10 @@ function Overview() {
       >
         <p className="text-sm leading-relaxed text-muted-foreground">
           This lab is inspired by publicly documented ServiceNow-style security operations
-          workflows. It is <strong className="text-foreground">not affiliated with or endorsed by
-          ServiceNow</strong> and has no live ServiceNow, SIEM, EDR, identity-provider, credential,
-          customer-data or production-incident connection. All logic runs client-side over typed
-          fixtures. See{" "}
+          workflows. It is{" "}
+          <strong className="text-foreground">not affiliated with or endorsed by ServiceNow</strong>{" "}
+          and has no live ServiceNow, SIEM, EDR, identity-provider, credential, customer-data or
+          production-incident connection. All logic runs client-side over typed fixtures. See{" "}
           <Link to="/docs" className="text-primary underline-offset-4 hover:underline">
             Docs &amp; Tests
           </Link>{" "}

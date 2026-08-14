@@ -140,4 +140,13 @@ export function programMetrics(): ProgramMetrics {
   };
 }
 
-export { assets, businessServices, identities, incidents, playbooks, responseTasks, evidence, auditLog };
+export {
+  assets,
+  businessServices,
+  identities,
+  incidents,
+  playbooks,
+  responseTasks,
+  evidence,
+  auditLog,
+};

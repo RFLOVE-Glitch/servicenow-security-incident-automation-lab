@@ -55,7 +55,7 @@ export function Architecture() {
 
       <Panel title="Data & decision flow">
         <pre className="overflow-x-auto rounded-md border border-border/70 bg-surface/60 p-4 font-mono text-[11px] leading-relaxed text-muted-foreground">
-{diagram}
+          {diagram}
         </pre>
       </Panel>
 
@@ -67,8 +67,8 @@ export function Architecture() {
               enforced at the type level (source names carry a “(synthetic)” suffix).
             </li>
             <li>
-              <span className="text-foreground">logic.ts</span> — pure decision functions. No I/O, no
-              randomness, no clock reads: ages are precomputed in minutes.
+              <span className="text-foreground">logic.ts</span> — pure decision functions. No I/O,
+              no randomness, no clock reads: ages are precomputed in minutes.
             </li>
             <li>
               <span className="text-foreground">fixtures.ts</span> — the synthetic incident set,

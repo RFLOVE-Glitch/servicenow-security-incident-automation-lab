@@ -40,21 +40,54 @@ const implemented = [
 const productionOnly = [
   ["Authentication & SSO", "No login exists; every route is public and read-only."],
   ["RBAC / least privilege", "Assignment groups are display data, not authorization."],
-  ["Real integrations", "No ServiceNow, SIEM, EDR, identity-provider or ticketing connection exists."],
-  ["Secret vaulting & rotation", "The codebase contains no credentials to store; a real deployment would need a managed vault."],
-  ["Persistent audit storage", "The audit trail is an in-memory fixture; production needs append-only, tamper-evident storage."],
-  ["Inbound webhooks", "No endpoint receives detections; a real intake needs signature verification and replay protection."],
-  ["Change-management controls", "Playbook edits are code changes here; production needs approvals and versioned release control."],
-  ["Data retention & privacy", "No personal or customer data is present, so no retention or DSAR handling is implemented."],
+  [
+    "Real integrations",
+    "No ServiceNow, SIEM, EDR, identity-provider or ticketing connection exists.",
+  ],
+  [
+    "Secret vaulting & rotation",
+    "The codebase contains no credentials to store; a real deployment would need a managed vault.",
+  ],
+  [
+    "Persistent audit storage",
+    "The audit trail is an in-memory fixture; production needs append-only, tamper-evident storage.",
+  ],
+  [
+    "Inbound webhooks",
+    "No endpoint receives detections; a real intake needs signature verification and replay protection.",
+  ],
+  [
+    "Change-management controls",
+    "Playbook edits are code changes here; production needs approvals and versioned release control.",
+  ],
+  [
+    "Data retention & privacy",
+    "No personal or customer data is present, so no retention or DSAR handling is implemented.",
+  ],
   ["Observability", "No logging, metrics export or alerting pipeline."],
 ];
 
 const testAreas = [
-  ["Priority calculation", "Score composition per factor, band boundaries P1–P4, monotonicity across severity and asset tier."],
-  ["SLA model", "Budget lookup per severity, elapsed/remaining arithmetic, on-track / at-risk / breached thresholds."],
-  ["Routing", "Each rule in isolation, first-match-wins ordering, and the completeness of the evaluation trace."],
-  ["Automation eligibility", "Category, severity and confidence gates; auto-executable vs approval-required partitioning."],
-  ["Auto-close safety", "High and critical incidents are never auto-closeable regardless of state or approval flags."],
+  [
+    "Priority calculation",
+    "Score composition per factor, band boundaries P1–P4, monotonicity across severity and asset tier.",
+  ],
+  [
+    "SLA model",
+    "Budget lookup per severity, elapsed/remaining arithmetic, on-track / at-risk / breached thresholds.",
+  ],
+  [
+    "Routing",
+    "Each rule in isolation, first-match-wins ordering, and the completeness of the evaluation trace.",
+  ],
+  [
+    "Automation eligibility",
+    "Category, severity and confidence gates; auto-executable vs approval-required partitioning.",
+  ],
+  [
+    "Auto-close safety",
+    "High and critical incidents are never auto-closeable regardless of state or approval flags.",
+  ],
   ["Escalation", "Ladder monotonicity and the trigger reasons attached to each level."],
 ];
 
@@ -69,7 +102,12 @@ function Docs() {
 
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label="Unit tests" value={44} tone="success" hint="Vitest, decision logic only" />
-        <StatCard label="Decision functions" value={6} tone="primary" hint="Pure, no I/O, no clock" />
+        <StatCard
+          label="Decision functions"
+          value={6}
+          tone="primary"
+          hint="Pure, no I/O, no clock"
+        />
         <StatCard label="Live integrations" value={0} hint="Everything is simulated" />
       </div>
 
@@ -81,7 +119,10 @@ function Docs() {
         </ul>
       </Panel>
 
-      <Panel title="Test coverage of the decision logic" description="See src/lib/soc/logic.test.ts.">
+      <Panel
+        title="Test coverage of the decision logic"
+        description="See src/lib/soc/logic.test.ts."
+      >
         <table className="w-full text-left text-sm">
           <tbody>
             {testAreas.map(([area, detail]) => (
@@ -114,13 +155,34 @@ function Docs() {
 
       <Panel title="Repository documentation">
         <ul className="space-y-1.5 text-sm text-muted-foreground">
-          <li>· <span className="text-foreground">README.md</span> — project overview, scope, disclosures and commands.</li>
-          <li>· <span className="text-foreground">docs/architecture.md</span> — layering and data flow.</li>
-          <li>· <span className="text-foreground">docs/incident-workflow.md</span> — state model and lifecycle.</li>
-          <li>· <span className="text-foreground">docs/automation-logic.md</span> — playbook gates and approval rules.</li>
-          <li>· <span className="text-foreground">docs/sla-escalation.md</span> — budgets, thresholds and the ladder.</li>
-          <li>· <span className="text-foreground">docs/security-controls.md</span> — implemented controls and threat notes.</li>
-          <li>· <span className="text-foreground">docs/implementation-status.md</span> — demo vs production matrix.</li>
+          <li>
+            · <span className="text-foreground">README.md</span> — project overview, scope,
+            disclosures and commands.
+          </li>
+          <li>
+            · <span className="text-foreground">docs/architecture.md</span> — layering and data
+            flow.
+          </li>
+          <li>
+            · <span className="text-foreground">docs/incident-workflow.md</span> — state model and
+            lifecycle.
+          </li>
+          <li>
+            · <span className="text-foreground">docs/automation-logic.md</span> — playbook gates and
+            approval rules.
+          </li>
+          <li>
+            · <span className="text-foreground">docs/sla-escalation.md</span> — budgets, thresholds
+            and the ladder.
+          </li>
+          <li>
+            · <span className="text-foreground">docs/security-controls.md</span> — implemented
+            controls and threat notes.
+          </li>
+          <li>
+            · <span className="text-foreground">docs/implementation-status.md</span> — demo vs
+            production matrix.
+          </li>
         </ul>
       </Panel>
 

@@ -82,9 +82,7 @@ function IncidentQueue() {
                   <td className="py-3 pr-3 align-top text-xs text-muted-foreground capitalize">
                     {e.incident.state}
                   </td>
-                  <td className="py-3 pr-3 align-top text-xs text-foreground">
-                    {e.routing.group}
-                  </td>
+                  <td className="py-3 pr-3 align-top text-xs text-foreground">{e.routing.group}</td>
                   <td className="py-3 pr-3 align-top font-mono text-xs">{e.confidence}%</td>
                   <td className="py-3 pr-3 align-top font-mono text-xs text-muted-foreground">
                     {formatMinutes(e.incident.ageMinutes)}
