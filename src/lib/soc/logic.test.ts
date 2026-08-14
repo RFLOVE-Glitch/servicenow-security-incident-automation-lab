@@ -87,9 +87,27 @@ const playbook = (over: Partial<Playbook> = {}): Playbook => ({
   minSeverity: "low",
   minConfidence: 50,
   actions: [
-    { id: "a1", label: "low action", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM" },
-    { id: "a2", label: "medium action", impact: "medium", requiresHumanApproval: false, simulatedIntegration: "SIM" },
-    { id: "a3", label: "high action", impact: "high", requiresHumanApproval: true, simulatedIntegration: "SIM" },
+    {
+      id: "a1",
+      label: "low action",
+      impact: "low",
+      requiresHumanApproval: false,
+      simulatedIntegration: "SIM",
+    },
+    {
+      id: "a2",
+      label: "medium action",
+      impact: "medium",
+      requiresHumanApproval: false,
+      simulatedIntegration: "SIM",
+    },
+    {
+      id: "a3",
+      label: "high action",
+      impact: "high",
+      requiresHumanApproval: true,
+      simulatedIntegration: "SIM",
+    },
   ],
   guardrails: [],
   ...over,
@@ -103,7 +121,9 @@ describe("aggregateConfidence", () => {
   });
 
   it("uses the highest single-signal confidence", () => {
-    const i = incident({ signals: [signal({ confidence: 40 }), signal({ id: "s2", confidence: 70 })] });
+    const i = incident({
+      signals: [signal({ confidence: 40 }), signal({ id: "s2", confidence: 70 })],
+    });
     // same source -> no corroboration bonus
     expect(aggregateConfidence(i)).toBe(70);
   });
@@ -323,7 +343,13 @@ describe("evaluateAutomation", () => {
       incident(),
       playbook({
         actions: [
-          { id: "a1", label: "collect", impact: "low", requiresHumanApproval: false, simulatedIntegration: "SIM" },
+          {
+            id: "a1",
+            label: "collect",
+            impact: "low",
+            requiresHumanApproval: false,
+            simulatedIntegration: "SIM",
+          },
         ],
       }),
       asset(),
@@ -335,31 +361,39 @@ describe("evaluateAutomation", () => {
 
 describe("canAutoClose", () => {
   it("never auto-closes critical incidents", () => {
-    const result = canAutoClose(incident({ severity: "critical", state: "review", containmentApproved: true }));
+    const result = canAutoClose(
+      incident({ severity: "critical", state: "review", containmentApproved: true }),
+    );
     expect(result.allowed).toBe(false);
     expect(result.reason).toContain("prohibited");
   });
 
   it("never auto-closes high-severity incidents", () => {
     expect(
-      canAutoClose(incident({ severity: "high", state: "review", containmentApproved: true })).allowed,
+      canAutoClose(incident({ severity: "high", state: "review", containmentApproved: true }))
+        .allowed,
     ).toBe(false);
   });
 
   it("requires validated containment", () => {
-    const result = canAutoClose(incident({ severity: "low", state: "review", containmentApproved: false }));
+    const result = canAutoClose(
+      incident({ severity: "low", state: "review", containmentApproved: false }),
+    );
     expect(result.allowed).toBe(false);
     expect(result.reason).toContain("validated by a human");
   });
 
   it("requires the review state", () => {
-    const result = canAutoClose(incident({ severity: "low", state: "analysis", containmentApproved: true }));
+    const result = canAutoClose(
+      incident({ severity: "low", state: "analysis", containmentApproved: true }),
+    );
     expect(result.allowed).toBe(false);
   });
 
   it("allows a validated low-severity incident in review", () => {
     expect(
-      canAutoClose(incident({ severity: "low", state: "review", containmentApproved: true })).allowed,
+      canAutoClose(incident({ severity: "low", state: "review", containmentApproved: true }))
+        .allowed,
     ).toBe(true);
   });
 
@@ -428,8 +462,7 @@ describe("fixture integration", () => {
   });
 
   it("labels every detection source as synthetic", () => {
-    for (const i of incidents)
-      for (const s of i.signals) expect(s.source).toContain("(synthetic)");
+    for (const i of incidents) for (const s of i.signals) expect(s.source).toContain("(synthetic)");
   });
 
   it("only references simulated integrations in playbooks", () => {

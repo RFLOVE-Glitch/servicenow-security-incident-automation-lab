@@ -339,7 +339,10 @@ export function canAutoClose(incident: Incident): { allowed: boolean; reason: st
     return { allowed: false, reason: "Containment has not been validated by a human analyst." };
   }
   if (incident.state !== "review") {
-    return { allowed: false, reason: `Incident must be in "review" state, currently "${incident.state}".` };
+    return {
+      allowed: false,
+      reason: `Incident must be in "review" state, currently "${incident.state}".`,
+    };
   }
   return { allowed: true, reason: "Low/medium incident in review with validated containment." };
 }
@@ -374,10 +377,7 @@ export function evaluateEscalation(
     raise("incident_commander", "P1 priority requires an incident commander.");
   }
   if (incident.severity === "critical" && service.criticality === 1) {
-    raise(
-      "executive",
-      `Critical incident affecting mission-critical service "${service.name}".`,
-    );
+    raise("executive", `Critical incident affecting mission-critical service "${service.name}".`);
   }
   if (sla.state === "breached" && incident.severity === "critical") {
     raise("executive", "Critical incident with a breached containment SLA.");

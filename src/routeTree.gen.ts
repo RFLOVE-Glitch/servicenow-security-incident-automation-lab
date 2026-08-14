@@ -10,33 +10,167 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ArchitectureRouteImport } from './routes/architecture'
+import { Route as DetectionRouteImport } from './routes/detection'
+import { Route as DocsRouteImport } from './routes/docs'
+import { Route as EvidenceRouteImport } from './routes/evidence'
+import { Route as MetricsRouteImport } from './routes/metrics'
+import { Route as PlaybooksRouteImport } from './routes/playbooks'
+import { Route as SlaRouteImport } from './routes/sla'
+import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as IncidentsIndexRouteImport } from './routes/incidents.index'
+import { Route as IncidentsIdRouteImport } from './routes/incidents.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArchitectureRoute = ArchitectureRouteImport.update({
+  id: '/architecture',
+  path: '/architecture',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DetectionRoute = DetectionRouteImport.update({
+  id: '/detection',
+  path: '/detection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvidenceRoute = EvidenceRouteImport.update({
+  id: '/evidence',
+  path: '/evidence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MetricsRoute = MetricsRouteImport.update({
+  id: '/metrics',
+  path: '/metrics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaybooksRoute = PlaybooksRouteImport.update({
+  id: '/playbooks',
+  path: '/playbooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SlaRoute = SlaRouteImport.update({
+  id: '/sla',
+  path: '/sla',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasksRoute = TasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IncidentsIndexRoute = IncidentsIndexRouteImport.update({
+  id: '/incidents/',
+  path: '/incidents/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IncidentsIdRoute = IncidentsIdRouteImport.update({
+  id: '/incidents/$id',
+  path: '/incidents/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/architecture': typeof ArchitectureRoute
+  '/detection': typeof DetectionRoute
+  '/docs': typeof DocsRoute
+  '/evidence': typeof EvidenceRoute
+  '/metrics': typeof MetricsRoute
+  '/playbooks': typeof PlaybooksRoute
+  '/sla': typeof SlaRoute
+  '/tasks': typeof TasksRoute
+  '/incidents/$id': typeof IncidentsIdRoute
+  '/incidents/': typeof IncidentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/architecture': typeof ArchitectureRoute
+  '/detection': typeof DetectionRoute
+  '/docs': typeof DocsRoute
+  '/evidence': typeof EvidenceRoute
+  '/metrics': typeof MetricsRoute
+  '/playbooks': typeof PlaybooksRoute
+  '/sla': typeof SlaRoute
+  '/tasks': typeof TasksRoute
+  '/incidents/$id': typeof IncidentsIdRoute
+  '/incidents': typeof IncidentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/architecture': typeof ArchitectureRoute
+  '/detection': typeof DetectionRoute
+  '/docs': typeof DocsRoute
+  '/evidence': typeof EvidenceRoute
+  '/metrics': typeof MetricsRoute
+  '/playbooks': typeof PlaybooksRoute
+  '/sla': typeof SlaRoute
+  '/tasks': typeof TasksRoute
+  '/incidents/$id': typeof IncidentsIdRoute
+  '/incidents/': typeof IncidentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/architecture'
+    | '/detection'
+    | '/docs'
+    | '/evidence'
+    | '/metrics'
+    | '/playbooks'
+    | '/sla'
+    | '/tasks'
+    | '/incidents/$id'
+    | '/incidents/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/architecture'
+    | '/detection'
+    | '/docs'
+    | '/evidence'
+    | '/metrics'
+    | '/playbooks'
+    | '/sla'
+    | '/tasks'
+    | '/incidents/$id'
+    | '/incidents'
+  id:
+    | '__root__'
+    | '/'
+    | '/architecture'
+    | '/detection'
+    | '/docs'
+    | '/evidence'
+    | '/metrics'
+    | '/playbooks'
+    | '/sla'
+    | '/tasks'
+    | '/incidents/$id'
+    | '/incidents/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ArchitectureRoute: typeof ArchitectureRoute
+  DetectionRoute: typeof DetectionRoute
+  DocsRoute: typeof DocsRoute
+  EvidenceRoute: typeof EvidenceRoute
+  MetricsRoute: typeof MetricsRoute
+  PlaybooksRoute: typeof PlaybooksRoute
+  SlaRoute: typeof SlaRoute
+  TasksRoute: typeof TasksRoute
+  IncidentsIdRoute: typeof IncidentsIdRoute
+  IncidentsIndexRoute: typeof IncidentsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +182,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/architecture': {
+      id: '/architecture'
+      path: '/architecture'
+      fullPath: '/architecture'
+      preLoaderRoute: typeof ArchitectureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/detection': {
+      id: '/detection'
+      path: '/detection'
+      fullPath: '/detection'
+      preLoaderRoute: typeof DetectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evidence': {
+      id: '/evidence'
+      path: '/evidence'
+      fullPath: '/evidence'
+      preLoaderRoute: typeof EvidenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/metrics': {
+      id: '/metrics'
+      path: '/metrics'
+      fullPath: '/metrics'
+      preLoaderRoute: typeof MetricsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playbooks': {
+      id: '/playbooks'
+      path: '/playbooks'
+      fullPath: '/playbooks'
+      preLoaderRoute: typeof PlaybooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sla': {
+      id: '/sla'
+      path: '/sla'
+      fullPath: '/sla'
+      preLoaderRoute: typeof SlaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tasks': {
+      id: '/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/incidents/': {
+      id: '/incidents/'
+      path: '/incidents'
+      fullPath: '/incidents/'
+      preLoaderRoute: typeof IncidentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/incidents/$id': {
+      id: '/incidents/$id'
+      path: '/incidents/$id'
+      fullPath: '/incidents/$id'
+      preLoaderRoute: typeof IncidentsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ArchitectureRoute: ArchitectureRoute,
+  DetectionRoute: DetectionRoute,
+  DocsRoute: DocsRoute,
+  EvidenceRoute: EvidenceRoute,
+  MetricsRoute: MetricsRoute,
+  PlaybooksRoute: PlaybooksRoute,
+  SlaRoute: SlaRoute,
+  TasksRoute: TasksRoute,
+  IncidentsIdRoute: IncidentsIdRoute,
+  IncidentsIndexRoute: IncidentsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
