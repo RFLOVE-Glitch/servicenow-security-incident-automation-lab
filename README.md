@@ -2,6 +2,10 @@
 
 **Security Operations • Incident Response • Workflow Automation • Human-in-the-Loop Security**
 
+🌐 **Live Demo:** [Launch the ServiceNow Security Incident Automation Lab](https://servicenow-security-incident-automation-lab.lovable.app)
+
+🌐 **Portfolio:** [rachellove.tech](https://rachellove.tech)
+
 A recruiter-facing portfolio MVP demonstrating how enterprise security incidents can move from detection and triage through prioritization, routing, SLA management, response automation, escalation, evidence collection, and audit review.
 
 The project emphasizes **deterministic and explainable security automation**, with explicit human approval required for consequential actions.
